@@ -10,6 +10,7 @@ import { Link } from 'react-router-dom';
 
 function DataPage() {
   const [packages, setPackages] = useState([]);
+  const [expeditions, setExpeditions] = useState([]);
 
   useEffect(() => {
     const fetchPackages = async () => {
@@ -17,11 +18,21 @@ function DataPage() {
         const response = await axios.get('https://gapura-server.vercel.app/packages');
         setPackages(response.data);
       } catch (error) {
-        console.error('Error fetching packages:', error.message); 
+        console.error('Error fetching packages:', error.message);
       }
     };
-  
+
+    const fetchExpeditions = async () => {
+      try {
+        const response = await axios.get('https://gapura-server.vercel.app/expeditions');
+        setExpeditions(response.data);
+      } catch (error) {
+        console.error('Error fetching expeditions:', error.message);
+      }
+    };
+
     fetchPackages();
+    fetchExpeditions();
   }, []);
 
   const handleDelete = async (id) => {
@@ -46,6 +57,11 @@ function DataPage() {
     } catch (error) {
       console.error('Error deleting package:', error.message);
     }
+  };
+
+  const getExpeditionName = (id) => {
+    const expedition = expeditions.find(exp => exp.id === id);
+    return expedition ? expedition.nama : 'Unknown';
   };
 
   return (
@@ -76,7 +92,7 @@ function DataPage() {
                 <td>{pkg.alamat_pengirim}</td>
                 <td>{pkg.nama_penerima}</td>
                 <td>{pkg.alamat_penerima}</td>
-                <td>{pkg.ekspedisi_id}</td>
+                <td>{getExpeditionName(pkg.ekspedisi_id)}</td>
                 <td>{pkg.tanggal_pembuatan}</td>
                 <td>{pkg.status}</td>
                 <td>

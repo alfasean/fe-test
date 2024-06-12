@@ -40,6 +40,11 @@ function ReportsPage() {
     setStartDate(e.target.value);
   };
 
+  const getExpeditionName = (id) => {
+    const expedition = expeditions.find(exp => exp.id === id);
+    return expedition ? expedition.nama : 'Unknown';
+  };
+
   return (
     <div className='container'> 
       <h2 className='my-4'>Reports</h2>
@@ -75,7 +80,7 @@ function ReportsPage() {
               <td>{report.alamat_pengirim}</td>
               <td>{report.nama_penerima}</td>
               <td>{report.alamat_penerima}</td>
-              <td>{report.ekspedisi_id}</td>
+              <td>{getExpeditionName(report.ekspedisi_id)}</td>
               <td>{report.tanggal_pembuatan}</td>
               <td>{report.status}</td>
             </tr>
